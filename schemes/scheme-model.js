@@ -6,7 +6,7 @@ function find() {
 }
 
 function findById(ID) {
-  return db('schemes as s').where('s.id', ID).first('s.id', 's.scheme_name');
+  return db('schemes as s').where('s.id', ID).first();
 }
 
 function findSteps(ID) {
@@ -22,11 +22,11 @@ function remove(ID) {
 }
 
 function add(scheme) {
-  //   return {
-  //     const id = db('schemes').insert(scheme);
-  //    findById(id);
-  // }
-  return db('schemes').insert(scheme);
+  return db('schemes')
+    .insert(scheme)
+    .then(id => {
+      return findById(id[0]);
+    });
 }
 
 function update(scheme, ID) {
